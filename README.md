@@ -1,3 +1,3 @@
 # PikaRun
 
-A basic pikachu running game :)
+A basic pikachu running game using visual c++ :)
