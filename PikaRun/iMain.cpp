@@ -6,6 +6,7 @@
 #define height 750
 #define button_width 405
 #define button_height 120
+#define gamesate_limit 3
 
 int mposx = 200, mposy = 173, dx = 5, dy = 5;
 bool musicOn = true;
@@ -45,7 +46,7 @@ void iDraw() {
 	{
         iShowBMP(0, 0, homemenu);
 
-        for (int i = 0; i < 3; i++) 
+        for (int i = 0; i < gamesate_limit; i++) 
 		{
             if (mposx >= bCoordinate[i].x && mposx <= bCoordinate[i].x + button_width &&
                 mposy >= bCoordinate[i].y && mposy <= bCoordinate[i].y + button_height) 
@@ -69,6 +70,7 @@ void iDraw() {
     }
     else if (gamestate == 0) {
         iShowBMP(0, 0, play);
+
     }
     else if (gamestate == 1) {
         iShowBMP(0, 0, score);
@@ -93,7 +95,7 @@ void iMouse(int button, int state, int mx, int my) {
 		{
             bool buttonClicked = false;  // Flag to track if any button is clicked
             
-            for (int i = 0; i < 3; i++) 
+            for (int i = 0; i < gamesate_limit; i++) 
 			{
                 if (gamestate >= -1 && gamestate <= 2 && mx >= bCoordinate[i].x && mx <= bCoordinate[i].x + button_width &&
                     my >= bCoordinate[i].y && my <= bCoordinate[i].y + button_height)
@@ -169,7 +171,7 @@ void iSpecialKeyboard(unsigned char key) {
 int main() {
     
 	int sum = height - 500;
-    for (int i = 2; i >= 0; i--)
+    for (int i = gamesate_limit-1; i >= 0; i--)
 	{
         bCoordinate[i].x = 50;
         bCoordinate[i].y = sum;
