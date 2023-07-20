@@ -3,10 +3,10 @@
 #include "iGraphics.h"
 
 #define width 1200
-#define height 750
+#define height 700
 #define button_width 405
 #define button_height 120
-#define gamesate_limit 3
+#define gamestate_limit 3
 
 int mposx = 200, mposy = 173, dx = 5, dy = 5;
 bool musicOn = true;
@@ -18,7 +18,7 @@ struct buttonCoordinate {
 } bCoordinate[3], exitButton;
 
 char button[3][30] = { "images\\buttons\\play1.bmp", "images\\buttons\\score.bmp", "images\\buttons\\ins.bmp"};
-char button2[3][30] = {"","",""}; // ???
+char button2[3][30] = {"","",""};
 char homemenu[30] = "images\\menu\\-1.bmp";
 char play[30] = "images\\menu\\40.bmp";
 char score[30] = "images\\menu\\41.bmp";
@@ -46,7 +46,7 @@ void iDraw() {
 	{
         iShowBMP(0, 0, homemenu);
 
-        for (int i = 0; i < gamesate_limit; i++) 
+        for (int i = 0; i < gamestate_limit; i++) 
 		{
             if (mposx >= bCoordinate[i].x && mposx <= bCoordinate[i].x + button_width &&
                 mposy >= bCoordinate[i].y && mposy <= bCoordinate[i].y + button_height) 
@@ -95,7 +95,7 @@ void iMouse(int button, int state, int mx, int my) {
 		{
             bool buttonClicked = false;  // Flag to track if any button is clicked
             
-            for (int i = 0; i < gamesate_limit; i++) 
+            for (int i = 0; i < gamestate_limit; i++) 
 			{
                 if (gamestate >= -1 && gamestate <= 2 && mx >= bCoordinate[i].x && mx <= bCoordinate[i].x + button_width &&
                     my >= bCoordinate[i].y && my <= bCoordinate[i].y + button_height)
@@ -150,7 +150,8 @@ void iKeyboard(unsigned char key) {
     if (key == 'm') {
         musicOn = false;
     }
-    /*else {
+    
+	/*else {
         musicOn = true;
         PlaySound("music\\old.wav", NULL, SND_ASYNC);
     }*/
@@ -171,7 +172,7 @@ void iSpecialKeyboard(unsigned char key) {
 int main() {
     
 	int sum = height - 500;
-    for (int i = gamesate_limit-1; i >= 0; i--)
+    for (int i = gamestate_limit-1; i >= 0; i--)
 	{
         bCoordinate[i].x = 50;
         bCoordinate[i].y = sum;
