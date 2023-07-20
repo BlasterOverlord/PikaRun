@@ -32,7 +32,7 @@ char exitButtonImg[30] = "images\\buttons\\exit.bmp";
 char pikachuRun[4][30] = {"images\\pikachu\\run1.bmp", "images\\pikachu\\run2.bmp", "images\\pikachu\\run3.bmp", "images\\pikachu\\run4.bmp"};
 char pikachuJump[5][30] = {"images\\pikachu\\jump1.bmp", "images\\pikachu\\jump2.bmp", "images\\pikachu\\jump3.bmp", "images\\pikachu\\jump4.bmp", "images\\pikachu\\jump5.bmp"};
 
-// function definitions
+// function prototypes
 void draw_homemenu();
 void draw_movement();
 
