@@ -8,6 +8,7 @@
 #define button_height 120
 #define gamestate_limit 3
 #define max_jump_limit 400
+#define jumping_speed 15
 
 // Global variables
 int mposx = 200, mposy = 173, dx = 5, dy = 5;
@@ -202,13 +203,13 @@ void jump() {
 	{
 		if (jumpingUp)
 		{
-			pikachuJumpCoordinate += 15;
+			pikachuJumpCoordinate += jumping_speed;
 			if (pikachuJumpCoordinate > max_jump_limit)
 				jumpingUp = false;
 		}
 		else
 		{
-			pikachuJumpCoordinate -= 15;
+			pikachuJumpCoordinate -= jumping_speed;
 			if (pikachuJumpCoordinate <= 0)
 			{
 				jumping = false;
@@ -245,7 +246,7 @@ void buttonWork() {
 int main() {
 	buttonWork();
     iSetTimer(100, index);
-	iSetTimer(30, jump);
+	iSetTimer(25, jump);
 
     if (musicOn)
         PlaySound("music\\pokemon.wav", NULL, SND_LOOP | SND_ASYNC);

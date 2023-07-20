@@ -1,4 +1,4 @@
-﻿Build started 20/07/2023 09:45:48 PM.
+﻿Build started 20/07/2023 09:57:19 PM.
      1>Project "D:\Study\AUST\CSE 1200\Game Project\PikaRun\PikaRun\PikaRun\PikaRun.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\PikaRun.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -18,4 +18,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.79
+Time Elapsed 00:00:02.00
