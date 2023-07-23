@@ -1,17 +1,17 @@
-﻿Build started 20/07/2023 10:02:38 PM.
-     1>Project "D:\Study\AUST\CSE 1200\Game Project\PikaRun\PikaRun\PikaRun\PikaRun.vcxproj" on node 2 (build target(s)).
+﻿Build started 23/07/2023 02:55:28 PM.
+     1>Project "D:\Study\AUST\CSE 1200\Game Project\test\PikaRun-main\PikaRun-main\PikaRun\PikaRun.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\PikaRun.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          All outputs are up-to-date.
        Link:
          All outputs are up-to-date.
-         PikaRun.vcxproj -> D:\Study\AUST\CSE 1200\Game Project\PikaRun\PikaRun\Debug\PikaRun.exe
+         PikaRun.vcxproj -> D:\Study\AUST\CSE 1200\Game Project\test\PikaRun-main\PikaRun-main\PikaRun\Debug\PikaRun.exe
        FinalizeBuildStatus:
          Deleting file "Debug\PikaRun.unsuccessfulbuild".
          Touching "Debug\PikaRun.lastbuildstate".
-     1>Done Building Project "D:\Study\AUST\CSE 1200\Game Project\PikaRun\PikaRun\PikaRun\PikaRun.vcxproj" (build target(s)).
+     1>Done Building Project "D:\Study\AUST\CSE 1200\Game Project\test\PikaRun-main\PikaRun-main\PikaRun\PikaRun.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.06
+Time Elapsed 00:00:00.07

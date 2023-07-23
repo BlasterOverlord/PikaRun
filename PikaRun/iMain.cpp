@@ -7,27 +7,33 @@
 #define button_width 405
 #define button_height 120
 #define gamestate_limit 3
-#define max_jump_limit 400
-#define jumping_speed 15
+#define max_jump_limit 600
+#define jumping_speed 25
 
 // Global variables
 int mposx = 200, mposy = 173, dx = 5, dy = 5;
 int exitz = -1, hover = -1, gamestate = -1;
 int pikachuRunIndex = 0, pikachuJumpIndex = 0;
-int pikachuJumpCoordinate = 0;
+int pikachuJumpCoordinate = 400;
 bool musicOn = true;
+int mute=1;
 bool jumping = false, jumpingUp = false;
 
 struct buttonCoordinate {
     int x, y;
 } bCoordinate[3], exitButton;
 
+struct obstacles {
+	int x, y, index;
+};
+
 // Strings containing paths to files
 char button[3][30] = { "images\\buttons\\play1.bmp", "images\\buttons\\score.bmp", "images\\buttons\\ins.bmp"};
 char button2[3][30] = {"","",""};
-char homemenu[30] = "images\\menu\\-1.bmp";
+char homemenu[30] = "images\\menu\\42_02.bmp";
+char play[30] = "images\\menu\\play.bmp";
 char score[30] = "images\\menu\\41.bmp";
-char ins[30] = "images\\menu\\42.bmp";
+char ins[30] = "images\\menu\\idk05.bmp";
 char exitButtonImg[30] = "images\\buttons\\exit.bmp";
 char pikachuRun[4][30] = {"images\\pikachu\\run1.bmp", "images\\pikachu\\run2.bmp", "images\\pikachu\\run3.bmp", "images\\pikachu\\run4.bmp"};
 char pikachuJump[5][30] = {"images\\pikachu\\jump1.bmp", "images\\pikachu\\jump2.bmp", "images\\pikachu\\jump3.bmp", "images\\pikachu\\jump4.bmp", "images\\pikachu\\jump5.bmp"};
@@ -35,6 +41,79 @@ char pikachuJump[5][30] = {"images\\pikachu\\jump1.bmp", "images\\pikachu\\jump2
 // function prototypes
 void draw_homemenu();
 void draw_movement();
+
+ /*   char level_01[70][39] = {
+    "images\\levels\\level_01\\row-1-column-1",
+    "images\\levels\\level_01\\row-1-column-2",
+    "images\\levels\\level_01\\row-1-column-3",
+    "images\\levels\\level_01\\row-1-column-4",
+    "images\\levels\\level_01\\row-1-column-5",
+    "images\\levels\\level_01\\row-1-column-6",
+    "images\\levels\\level_01\\row-1-column-7",
+    "images\\levels\\level_01\\row-1-column-8",
+    "images\\levels\\level_01\\row-1-column-9",
+    "images\\levels\\level_01\\row-1-column-10",
+    "images\\levels\\level_01\\row-1-column-11",
+    "images\\levels\\level_01\\row-1-column-12",
+    "images\\levels\\level_01\\row-1-column-13",
+    "images\\levels\\level_01\\row-1-column-14",
+    "images\\levels\\level_01\\row-1-column-15",
+    "images\\levels\\level_01\\row-1-column-16",
+    "images\\levels\\level_01\\row-1-column-17",
+    "images\\levels\\level_01\\row-1-column-18",
+    "images\\levels\\level_01\\row-1-column-19",
+    "images\\levels\\level_01\\row-1-column-20",
+    "images\\levels\\level_01\\row-1-column-21",
+    "images\\levels\\level_01\\row-1-column-22",
+    "images\\levels\\level_01\\row-1-column-23",
+    "images\\levels\\level_01\\row-1-column-24",
+    "images\\levels\\level_01\\row-1-column-25",
+    "images\\levels\\level_01\\row-1-column-26",
+    "images\\levels\\level_01\\row-1-column-27",
+    "images\\levels\\level_01\\row-1-column-28",
+    "images\\levels\\level_01\\row-1-column-29",
+    "images\\levels\\level_01\\row-1-column-30",
+    "images\\levels\\level_01\\row-1-column-31",
+    "images\\levels\\level_01\\row-1-column-32",
+    "images\\levels\\level_01\\row-1-column-33",
+    "images\\levels\\level_01\\row-1-column-34",
+    "images\\levels\\level_01\\row-1-column-35",
+    "images\\levels\\level_01\\row-1-column-36",
+    "images\\levels\\level_01\\row-1-column-37",
+    "images\\levels\\level_01\\row-1-column-38",
+    "images\\levels\\level_01\\row-1-column-39",
+    "images\\levels\\level_01\\row-1-column-40",
+    "images\\levels\\level_01\\row-1-column-41",
+    "images\\levels\\level_01\\row-1-column-42",
+    "images\\levels\\level_01\\row-1-column-43",
+    "images\\levels\\level_01\\row-1-column-44",
+    "images\\levels\\level_01\\row-1-column-45",
+    "images\\levels\\level_01\\row-1-column-46",
+    "images\\levels\\level_01\\row-1-column-47",
+    "images\\levels\\level_01\\row-1-column-48",
+    "images\\levels\\level_01\\row-1-column-49",
+    "images\\levels\\level_01\\row-1-column-50",
+    "images\\levels\\level_01\\row-1-column-51",
+    "images\\levels\\level_01\\row-1-column-52",
+    "images\\levels\\level_01\\row-1-column-53",
+    "images\\levels\\level_01\\row-1-column-54",
+    "images\\levels\\level_01\\row-1-column-55",
+    "images\\levels\\level_01\\row-1-column-56",
+    "images\\levels\\level_01\\row-1-column-57",
+    "images\\levels\\level_01\\row-1-column-58",
+    "images\\levels\\level_01\\row-1-column-59",
+    "images\\levels\\level_01\\row-1-column-60",
+    "images\\levels\\level_01\\row-1-column-61",
+    "images\\levels\\level_01\\row-1-column-62",
+    "images\\levels\\level_01\\row-1-column-63",
+    "images\\levels\\level_01\\row-1-column-64",
+    "images\\levels\\level_01\\row-1-column-65",
+    "images\\levels\\level_01\\row-1-column-66",
+    "images\\levels\\level_01\\row-1-column-67",
+    "images\\levels\\level_01\\row-1-column-68",
+    "images\\levels\\level_01\\row-1-column-69",
+    "images\\levels\\level_01\\row-1-column-70",
+};    */
 
 void iDraw() {
     
@@ -45,7 +124,9 @@ void iDraw() {
     }
     else if (gamestate == 0) 
 	{
+		iShowBMP(0,0,play);
 		draw_movement();
+		
     }
     else if (gamestate == 1) 
 	{
@@ -104,7 +185,19 @@ void iPassiveMouseMove(int mx, int my) {
     mposx = mx;
     mposy = my;
 }
-
+void mute_mainmenu(int mute){
+	if(mute%2==0){
+        musicOn = false;
+		if(!musicOn){
+			PlaySound(0,0,0);}
+		}
+		else if(mute%2!=0){
+			musicOn = true;
+		if(musicOn){
+			PlaySound("music\\pokemon.wav", NULL, SND_LOOP | SND_ASYNC);}
+			
+		}
+}
 void iKeyboard(unsigned char key) {
     if (key == 'w') {
         mposy += 50;
@@ -125,7 +218,9 @@ void iKeyboard(unsigned char key) {
         exitz = 0;
     }
     if (key == 'm') {
-        musicOn = false;
+        mute++;
+		mute_mainmenu(mute);
+	
     }
 	if (key == ' ')
 	{
@@ -181,6 +276,7 @@ void draw_homemenu() {
     }
 }
 
+
 void index() {
 
 	if (gamestate == 0 && jumping == false)
@@ -210,10 +306,10 @@ void jump() {
 		else
 		{
 			pikachuJumpCoordinate -= jumping_speed;
-			if (pikachuJumpCoordinate <= 0)
+			if (pikachuJumpCoordinate <= 400)
 			{
 				jumping = false;
-				pikachuJumpCoordinate = 0;
+				pikachuJumpCoordinate = 400;
 			}
 		}
 	}
@@ -222,11 +318,11 @@ void jump() {
 void draw_movement() {
 	if (!jumping)
 	{
-		iShowBMP2(0, 0, pikachuRun[pikachuRunIndex], 0);
+		iShowBMP2(200, 400, pikachuRun[pikachuRunIndex], 0);
 	}
 	else
 	{
-		iShowBMP2(0, pikachuJumpCoordinate, pikachuJump[pikachuJumpIndex], 0);
+		iShowBMP2(200, pikachuJumpCoordinate, pikachuJump[pikachuJumpIndex], 0);
 	}
 }
 
@@ -246,7 +342,7 @@ void buttonWork() {
 int main() {
 	buttonWork();
     iSetTimer(100, index);
-	iSetTimer(25, jump);
+	iSetTimer(15, jump);
 
     if (musicOn)
         PlaySound("music\\pokemon.wav", NULL, SND_LOOP | SND_ASYNC);
