@@ -1,6 +1,8 @@
-﻿Build started 24/07/2023 01:18:01 AM.
-     1>Project "D:\Study\AUST\CSE 1200\Game Project\PikaRun\PikaRun\PikaRun\PikaRun.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
+﻿Build started 11/08/2023 02:15:56 AM.
+     1>Project "D:\Study\AUST\CSE 1200\Game Project\PikaRun\PikaRun\PikaRun\PikaRun.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\PikaRun.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
          d:\program files\vs2010\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt iMain.cpp
          iMain.cpp
        Link:
@@ -9,8 +11,13 @@
          PikaRun.vcxproj -> D:\Study\AUST\CSE 1200\Game Project\PikaRun\PikaRun\Debug\PikaRun.exe
        Manifest:
          C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\Study\AUST\CSE 1200\Game Project\PikaRun\PikaRun\Debug\PikaRun.exe;#1" /manifest Debug\PikaRun.exe.intermediate.manifest
-     1>Done Building Project "D:\Study\AUST\CSE 1200\Game Project\PikaRun\PikaRun\PikaRun\PikaRun.vcxproj" (Build target(s)).
+       CopyFilesToOutputDirectory:
+         Copying file from "Debug\PikaRun.pdb" to "D:\Study\AUST\CSE 1200\Game Project\PikaRun\PikaRun\Debug\PikaRun.pdb".
+       FinalizeBuildStatus:
+         Deleting file "Debug\PikaRun.unsuccessfulbuild".
+         Touching "Debug\PikaRun.lastbuildstate".
+     1>Done Building Project "D:\Study\AUST\CSE 1200\Game Project\PikaRun\PikaRun\PikaRun\PikaRun.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.88
+Time Elapsed 00:00:02.49
