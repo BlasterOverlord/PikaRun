@@ -32,9 +32,9 @@ void iDraw() {
 			iShowBMP(backGround[i].x, 0, Background[i]);
 		}
 
-		draw_pokeballs();
 		draw_movement();
 		draw_enemy();
+		draw_pokeballs();
 
 		iText(20, 650, "Score:", GLUT_BITMAP_HELVETICA_18);
 		iText(80, 650, scoreString, GLUT_BITMAP_HELVETICA_18);
@@ -47,6 +47,12 @@ void iDraw() {
 	{
         iShowBMP(0, 0, ins);
     }
+	else if (gamestate == 3)
+	{
+		iShowBMP(0, 0, gameover);
+		iText(500, 100, "Score:", GLUT_BITMAP_HELVETICA_18);
+		iText(560, 100, scoreString, GLUT_BITMAP_HELVETICA_18);
+	}
 }
 
 void iMouseMove(int mx, int my) {
@@ -67,7 +73,7 @@ void iMouse(int button, int state, int mx, int my) {
             for (int i = 0; i < gamestate_limit; i++) 
 			{
 
-                if (gamestate >= -1 && gamestate < gamestate_limit && mx >= bCoordinate[i].x && mx <= bCoordinate[i].x + button_width &&
+                if (gamestate >= -1 && gamestate <= 2 && mx >= bCoordinate[i].x && mx <= bCoordinate[i].x + button_width &&
                     my >= bCoordinate[i].y && my <= bCoordinate[i].y + button_height)
 				{
                     gamestate = i;
@@ -75,7 +81,7 @@ void iMouse(int button, int state, int mx, int my) {
 					musicTracker = 1;
 					if (musicOn == true && gamestate == 0)
 					{
-						PlaySound(music[1], NULL, SND_LOOP | SND_ASYNC);
+						PlaySound(music[musicTracker], NULL, SND_LOOP | SND_ASYNC);
 					}
                     break;  
                }
@@ -298,22 +304,22 @@ void enemyMovement(){
 	
 	if (gamestate == 0)
 	{
-		enemy[0].x -= 10;
+		enemy[0].x -= enemySpeed;
 		if (enemy[0].x < 0)
 			enemy[0].x = width + (rand() % 500);
 		
-		enemy[1].x -= 10;
+		enemy[1].x -= enemySpeed;
 		if (enemy[1].x < 0)
 		{
 			enemy[1].x = width + 100 + (rand() % 500);
 			enemy[1].y = height - 200 - (rand() % 200);
 		}
 
-		enemy[2].x -= 10;
+		enemy[2].x -= enemySpeed;
 		if (enemy[2].x < 0)
 			enemy[2].x = width + 500 + (rand() % 500);
 
-		enemy[3].x -= 10;
+		enemy[3].x -= enemySpeed;
 		if (enemy[3].x < 0)
 		{
 			enemy[3].x = width + 500 + (rand() % 1000);
@@ -348,11 +354,11 @@ void draw_pokeballs() {
 
 void setVariables(){
 	enemy[0].x = width + 300;
-	enemy[0].y = 90;
+	enemy[0].y = 100;
 	enemy[1].x = width + 600;
 	enemy[1].y = 400;
 	enemy[2].x = width + 900;
-	enemy[2].y = 90;
+	enemy[2].y = 100;
 	enemy[3].x = width + 1800;
 	enemy[3].y = 500;
 
@@ -372,7 +378,15 @@ void checkCollision(){
 	
 	if (gamestate == 0)
 	{
-		if ((pokeballX <= pikachu_x_coordinate + pikachu_width && pokeballX >= pikachu_x_coordinate - pikachu_width) && (pikachu_y_coordinate <= pokeballY + pokeball_height && pikachu_y_coordinate >= pokeballY - pokeball_height))
+		for (int i = 0; i < enemy_count; i++)
+		{
+			if ((enemy[i].x <= pikachu_x_coordinate + pikachu_width && enemy[i].x >= pikachu_x_coordinate) && (enemy[i].y <= pikachu_y_coordinate + pikachu_height && enemy[i].y >= pikachu_y_coordinate) )
+			{
+				gamestate = 3;
+			}
+		}
+
+		if ((pokeballX <= pikachu_x_coordinate + pikachu_width && pokeballX >= pikachu_x_coordinate) && (pikachu_y_coordinate <= pokeballY + pokeball_height && pikachu_y_coordinate >= pokeballY))
 		{
 			pokeballX = width + 1500 + (rand() % 300);
 			pokeballY = 150 + (rand() % 250);
