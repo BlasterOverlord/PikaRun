@@ -9,7 +9,7 @@
 #define music_counter 3
 #define enemy_count 4
 #define pikachu_width 80
-#define pikachu_height 80
+#define pikachu_height 40
 #define pokeball_height 70
 
 // Global variables
@@ -25,6 +25,8 @@ char scoreString[12];
 int pokeballX, pokeballY, pokeballIndex = 0;
 int pokeballCount = 0;
 int enemySpeed = 10;
+int thunderboltIndex = 0, timeWaste = 0;
+bool powerup = false;
 
 // Strings containing paths to files
 char button[3][30] = { "images\\buttons\\play1.bmp", "images\\buttons\\score.bmp", "images\\buttons\\ins.bmp" };
@@ -41,6 +43,7 @@ char pokeballs[9][30] = { "images\\pokeballs\\1.bmp", "images\\pokeballs\\2.bmp"
 char box[30] = "images\\pokeballs\\box.bmp";
 char balls[30] = "images\\pokeballs\\ball.bmp";
 char gameover[30] = "images\\gameover.bmp";
+char thunderbolt[3][40] = { "images\\thunderbolt\\1.bmp", "images\\thunderbolt\\2.bmp", "images\\thunderbolt\\3.bmp"};
 
 //obstacles
 struct obstacles {

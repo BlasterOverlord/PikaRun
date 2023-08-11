@@ -8,6 +8,7 @@ void draw_movement();
 void mute();
 void draw_enemy();
 void draw_pokeballs();
+void draw_thunderbolt();
 
 struct buttonCoordinate {
 	int x, y;
@@ -32,6 +33,7 @@ void iDraw() {
 			iShowBMP(backGround[i].x, 0, Background[i]);
 		}
 
+		draw_thunderbolt();
 		draw_movement();
 		draw_enemy();
 		draw_pokeballs();
@@ -134,7 +136,11 @@ void iKeyboard(unsigned char key) {
 
 	}
     if (key == 'x') {
-        
+		if (gamestate == 0 && powerup == false && pokeballCount >= 5)
+		{
+			pokeballCount = 0;
+			powerup = true;
+		}
     }
     if (key == 'm') {
 		mute();
@@ -188,7 +194,6 @@ void draw_homemenu() {
     }
 }
 
-
 void changeIndex() {
 
 	if (gamestate == 0 && jumping == false)
@@ -222,6 +227,20 @@ void changeIndex() {
 		pokeballIndex++;
 		if (pokeballIndex >= 9)
 			pokeballIndex = 0;
+
+		thunderboltIndex++;
+		if (thunderboltIndex >= 3)
+			thunderboltIndex = 0;
+
+		if (powerup)
+		{
+			timeWaste += 10;
+			if (timeWaste >= 100)
+			{
+				powerup = false;
+				timeWaste = 0;
+			}
+		}
 	}
 }
 
@@ -306,23 +325,23 @@ void enemyMovement(){
 	{
 		enemy[0].x -= enemySpeed;
 		if (enemy[0].x < 0)
-			enemy[0].x = width + (rand() % 500);
+			enemy[0].x = width + (rand() % 1000);
 		
 		enemy[1].x -= enemySpeed;
 		if (enemy[1].x < 0)
 		{
-			enemy[1].x = width + 100 + (rand() % 500);
+			enemy[1].x = width + 100 + (rand() % 1500);
 			enemy[1].y = height - 200 - (rand() % 200);
 		}
 
 		enemy[2].x -= enemySpeed;
 		if (enemy[2].x < 0)
-			enemy[2].x = width + 500 + (rand() % 500);
+			enemy[2].x = width + 500 + (rand() % 2000);
 
 		enemy[3].x -= enemySpeed;
 		if (enemy[3].x < 0)
 		{
-			enemy[3].x = width + 500 + (rand() % 1000);
+			enemy[3].x = width + 500 + (rand() % 2000);
 			enemy[3].y = height - 200 - (rand() % 200);
 		}
 
@@ -378,23 +397,39 @@ void checkCollision(){
 	
 	if (gamestate == 0)
 	{
-		for (int i = 0; i < enemy_count; i++)
-		{
-			if ((enemy[i].x <= pikachu_x_coordinate + pikachu_width && enemy[i].x >= pikachu_x_coordinate-40) && (enemy[i].y <= pikachu_y_coordinate + pikachu_height && enemy[i].y >= pikachu_y_coordinate) )
-			{
-				gamestate = 3;
-			}
-		}
-
-		if ((pokeballX <= pikachu_x_coordinate + pikachu_width && pokeballX >= pikachu_x_coordinate) && (pikachu_y_coordinate <= pokeballY + pokeball_height && pikachu_y_coordinate >= pokeballY))
+		if ((pokeballX <= pikachu_x_coordinate + pikachu_width && pokeballX >= pikachu_x_coordinate-40) && (pikachu_y_coordinate <= pokeballY + pokeball_height/2 && pikachu_y_coordinate >= pokeballY))
 		{
 			pokeballX = width + 1500 + (rand() % 300);
 			pokeballY = 150 + (rand() % 250);
 			if (pokeballCount < 5)
 				pokeballCount++;
 		}
+
+		for (int i = 0; i < enemy_count; i++)
+		{
+			if ((enemy[i].x <= pikachu_x_coordinate + pikachu_width && enemy[i].x >= pikachu_x_coordinate-40) && (enemy[i].y <= pikachu_y_coordinate + pikachu_height/2 && enemy[i].y >= pikachu_y_coordinate))
+			{
+				gamestate = 3;
+			}
+		}
+
+		for (int i = 0; i < enemy_count; i++)
+		{
+			if (powerup == true && (enemy[i].x > pikachu_x_coordinate + 100 && enemy[i].x < width) && (enemy[i].y <= pikachu_y_coordinate + pikachu_height/2 && enemy[i].y >= pikachu_y_coordinate))
+			{
+				enemy[i].x = width + 500 + (rand() % 500);
+			}
+		}
 	}
 
+}
+
+void draw_thunderbolt(){
+
+	if (powerup)
+	{
+		iShowBMP2(pikachu_x_coordinate+60, pikachu_y_coordinate-10, thunderbolt[thunderboltIndex], 0);
+	}
 }
 
 int main() {
