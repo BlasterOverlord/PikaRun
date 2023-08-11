@@ -1,5 +1,5 @@
 #include <iostream>
-#include <cstdlib> // For exit() function
+//#include <cstdlib> // For exit() function
 #include "iGraphics.h"
 
 #define width 1100
@@ -22,6 +22,8 @@ int pikachu_y_coordinate = 100;
 bool musicOn = true;
 bool jumping = false, jumpingUp = false;
 int musicTracker = 0;
+int score = 0;
+char scoreString[12];
 
 struct buttonCoordinate {
     int x, y;
@@ -32,7 +34,7 @@ char button[3][30] = { "images\\buttons\\play1.bmp", "images\\buttons\\score.bmp
 char button2[3][30] = {"","",""};
 char homemenu[30] = "images\\menu\\42_02.bmp";
 char play[30] = "images\\menu\\play.bmp";
-char score[30] = "images\\menu\\41.bmp";
+char highscore[30] = "images\\menu\\41.bmp";
 char ins[30] = "images\\menu\\idk05.bmp";
 char exitButtonImg[30] = "images\\buttons\\exit.bmp";
 char pikachuRun[4][30] = {"images\\pikachu\\run1.bmp", "images\\pikachu\\run2.bmp", "images\\pikachu\\run3.bmp", "images\\pikachu\\run4.bmp"};
@@ -159,10 +161,13 @@ void iDraw() {
 
 		draw_movement();
 		draw_enemy();
+
+		iText(20, 650, "Score:", GLUT_BITMAP_HELVETICA_18);
+		iText(80, 650, scoreString, GLUT_BITMAP_HELVETICA_18);
     }
     else if (gamestate == 1) 
 	{
-        iShowBMP(0, 0, score);
+        iShowBMP(0, 0, highscore);
     }
     else if (gamestate == 2) 
 	{
@@ -457,6 +462,14 @@ void setEnemyVariables(){
 	enemy[3].y = 500;
 }
 
+void updateScore(){
+	if (gamestate == 0)
+	{
+		score++;
+		sprintf(scoreString, "%d", score);
+	}
+}
+
 int main() {
 	combined();
 	buttonWork();
@@ -466,9 +479,10 @@ int main() {
 	iSetTimer(30, jump);
 	iSetTimer(24, backchange);
 	iSetTimer(25, enemyMovement);
+	iSetTimer(100, updateScore);
 
 	if (musicOn && gamestate == -1)
-		PlaySound(music[0], NULL, SND_LOOP | SND_ASYNC);
+		PlaySound(music[musicTracker], NULL, SND_LOOP | SND_ASYNC);
 
     iInitialize(width, height, "PikaRun");
 
