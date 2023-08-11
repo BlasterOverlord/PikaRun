@@ -380,7 +380,7 @@ void checkCollision(){
 	{
 		for (int i = 0; i < enemy_count; i++)
 		{
-			if ((enemy[i].x <= pikachu_x_coordinate + pikachu_width && enemy[i].x >= pikachu_x_coordinate) && (enemy[i].y <= pikachu_y_coordinate + pikachu_height && enemy[i].y >= pikachu_y_coordinate) )
+			if ((enemy[i].x <= pikachu_x_coordinate + pikachu_width && enemy[i].x >= pikachu_x_coordinate-40) && (enemy[i].y <= pikachu_y_coordinate + pikachu_height && enemy[i].y >= pikachu_y_coordinate) )
 			{
 				gamestate = 3;
 			}
