@@ -28,18 +28,26 @@ void iDraw() {
     }
     else if (gamestate == 0) 
 	{
-		for (int i = 0; i<70; i++)
+		if (playing)
 		{
-			iShowBMP(backGround[i].x, 0, Background[i]);
+			for (int i = 0; i<70; i++)
+			{
+				iShowBMP(backGround[i].x, 0, Background[i]);
+			}
+
+			draw_thunderbolt();
+			draw_movement();
+			draw_enemy();
+			draw_pokeballs();
+
+			iText(20, 650, "Score:", GLUT_BITMAP_HELVETICA_18);
+			iText(80, 650, scoreString, GLUT_BITMAP_HELVETICA_18);
 		}
-
-		draw_thunderbolt();
-		draw_movement();
-		draw_enemy();
-		draw_pokeballs();
-
-		iText(20, 650, "Score:", GLUT_BITMAP_HELVETICA_18);
-		iText(80, 650, scoreString, GLUT_BITMAP_HELVETICA_18);
+		else
+		{
+			iShowBMP(0, 0, nameScreen);
+			iText(300, 500, name, GLUT_BITMAP_TIMES_ROMAN_24);
+		}
     }
     else if (gamestate == 1) 
 	{
@@ -113,7 +121,8 @@ void iPassiveMouseMove(int mx, int my) {
 
 void iKeyboard(unsigned char key) {
 
-    if (key == 'r') {
+    if (key == 'r') 
+	{
 		gamestate = -1;
 		musicTracker = 0;
 		if (musicOn && gamestate == -1){
@@ -121,29 +130,38 @@ void iKeyboard(unsigned char key) {
 			musicTracker = 0;
 		}
     }
-	if (key == 'k') {
+	if (key == 'k') 
+	{
 		if (musicTracker > 0  && musicTracker <= music_counter && musicOn == true){
 			musicTracker--;
 			PlaySound(music[musicTracker], NULL, SND_LOOP | SND_ASYNC);
 		}
 
 	}
-	if (key == 'l') {
+	if (key == 'l') 
+	{
 		if (musicTracker >= 0 && musicTracker < music_counter-1 && musicOn == true){
 			musicTracker++;
 			PlaySound(music[musicTracker], NULL, SND_LOOP | SND_ASYNC);
 		}
 
 	}
-    if (key == 'x') {
+    if (key == 'x') 
+	{
 		if (gamestate == 0 && powerup == false && pokeballCount >= 5)
 		{
 			pokeballCount = 0;
 			powerup = true;
 		}
     }
-    if (key == 'm') {
-		mute();
+    if (key == 'm') 
+	{
+		if (gamestate == 0 && playing == false)
+		{
+			
+		}
+		else
+			mute();
     }
 	if (key == ' ')
 	{
@@ -151,6 +169,34 @@ void iKeyboard(unsigned char key) {
 		{
 			jumping = true;
 			jumpingUp = true;
+		}
+	}
+	if (gamestate == 0 && playing == false)
+	{
+		if (key != '\b' && key != '\r')
+		{
+			if (nameIndex >= name_limit-1)
+				nameIndex = name_limit - 1;
+			else
+			{
+				name[nameIndex] = key;
+				nameIndex++;
+				name[nameIndex] = '\0';
+			}
+		}
+		else if (key == '\b')
+		{
+			if (nameIndex <= 0)
+				nameIndex = 0;
+			else
+			{
+				nameIndex--;
+				name[nameIndex] = '\0';
+			}
+		}
+		else if (key == '\r')
+		{
+			playing = true;
 		}
 	}
 }
@@ -196,21 +242,21 @@ void draw_homemenu() {
 
 void changeIndex() {
 
-	if (gamestate == 0 && jumping == false)
+	if (gamestate == 0 && jumping == false && playing == true)
 	{
 		pikachuRunIndex++;
 		
 		if (pikachuRunIndex >= 4)
 			pikachuRunIndex = 0;
 	}
-	else if (gamestate == 0 && jumping == true)
+	else if (gamestate == 0 && jumping == true && playing == true)
 	{
 		pikachuJumpIndex++;
 		if (pikachuJumpIndex >= 5)
 			pikachuJumpIndex = 0;
 	}
 
-	if (gamestate == 0)
+	if (gamestate == 0 && playing == true)
 	{
 		enemy[0].index++;
 		if (enemy[0].index >= 6)
@@ -301,27 +347,31 @@ void mute() {
 		PlaySound(music[musicTracker], NULL, SND_LOOP | SND_ASYNC);
 	}
 }
+
 void combined(){
 	int n = 0;
 	for (int i = 0; i<70; i++)
 	{
-
 		backGround[i].x = n;
 		n += 17;
 	}
 }
 void backchange(){
-	for (int i = 0; i<70; i++){
-		backGround[i].x -= 17;
+	if (gamestate == 0 && playing == true)
+	{
+		for (int i = 0; i<70; i++)
+		{
+			backGround[i].x -= 17;
 
-		if (backGround[i].x <= 0)
-			backGround[i].x = width;
+			if (backGround[i].x <= 0)
+				backGround[i].x = width;
+		}
 	}
 }
 
 void enemyMovement(){
 	
-	if (gamestate == 0)
+	if (gamestate == 0 && playing == true)
 	{
 		enemy[0].x -= enemySpeed;
 		if (enemy[0].x < 0)
@@ -386,7 +436,7 @@ void setVariables(){
 }
 
 void updateScore(){
-	if (gamestate == 0)
+	if (gamestate == 0 && playing == true)
 	{
 		score++;
 		sprintf(scoreString, "%d", score); //converts int to string
@@ -395,7 +445,7 @@ void updateScore(){
 
 void checkCollision(){
 	
-	if (gamestate == 0)
+	if (gamestate == 0 && playing == true)
 	{
 		if ((pokeballX <= pikachu_x_coordinate + pikachu_width && pokeballX >= pikachu_x_coordinate-40) && (pikachu_y_coordinate <= pokeballY + pokeball_height/2 && pikachu_y_coordinate >= pokeballY))
 		{
@@ -430,6 +480,11 @@ void draw_thunderbolt(){
 	{
 		iShowBMP2(pikachu_x_coordinate+60, pikachu_y_coordinate-10, thunderbolt[thunderboltIndex], 0);
 	}
+}
+
+void recordScore()
+{
+	
 }
 
 int main() {
