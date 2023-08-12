@@ -1,5 +1,4 @@
 #include <iostream>
-#include <string>
 #include "iGraphics.h"
 #include "variables.h"
 
@@ -384,7 +383,7 @@ void enemyMovement(){
 		enemy[3].x -= enemySpeed;
 		if (enemy[3].x < 0)
 		{
-			enemy[3].x = width + 500 + (rand() % 2000);
+			enemy[3].x = width + 1000 + (rand() % 2000);
 			enemy[3].y = height - 200 - (rand() % 200);
 		}
 
@@ -405,7 +404,9 @@ void draw_enemy() {
 }
 
 void draw_pokeballs() {
+	
 	iShowBMP2(pokeballX, pokeballY, pokeballs[pokeballIndex], 0);
+	//to display collected pokeballs
 	iShowBMP2(width - 270, 590, box, 255);
 	for (int i = 0, j = 0; i < pokeballCount; i++)
 	{
@@ -442,7 +443,7 @@ void checkCollision(){
 	{
 		if ((pokeballX <= pikachu_x_coordinate + pikachu_width && pokeballX >= pikachu_x_coordinate-40) && (pikachu_y_coordinate <= pokeballY + pokeball_height/2 && pikachu_y_coordinate >= pokeballY))
 		{
-			pokeballX = width + 1500 + (rand() % 300);
+			pokeballX = width + 1000 + (rand() % 500);
 			pokeballY = 150 + (rand() % 250);
 			if (pokeballCount < 5)
 				pokeballCount++;

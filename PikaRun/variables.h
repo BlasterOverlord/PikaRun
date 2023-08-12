@@ -8,7 +8,7 @@
 #define jumping_speed 30
 #define music_counter 3
 #define enemy_count 4
-#define pikachu_width 80
+#define pikachu_width 70
 #define pikachu_height 40
 #define pokeball_height 70
 #define name_limit 50
@@ -35,10 +35,10 @@ FILE *fp;
 // Strings containing paths to files
 char button[3][30] = { "images\\buttons\\play1.bmp", "images\\buttons\\score.bmp", "images\\buttons\\ins.bmp" };
 char button2[3][30] = { "", "", "" };
-char homemenu[30] = "images\\menu\\42_02.bmp";
+char homemenu[30] = "images\\menu\\home.bmp";
 char play[30] = "images\\menu\\play.bmp";
 char highscore[30] = "images\\menu\\hs.bmp";
-char ins[30] = "images\\menu\\idk05.bmp";
+char ins[30] = "images\\menu\\ins.bmp";
 char exitButtonImg[30] = "images\\buttons\\exit.bmp";
 char pikachuRun[4][30] = { "images\\pikachu\\run1.bmp", "images\\pikachu\\run2.bmp", "images\\pikachu\\run3.bmp", "images\\pikachu\\run4.bmp" };
 char pikachuJump[5][30] = { "images\\pikachu\\jump1.bmp", "images\\pikachu\\jump2.bmp", "images\\pikachu\\jump3.bmp", "images\\pikachu\\jump4.bmp", "images\\pikachu\\jump5.bmp" };
