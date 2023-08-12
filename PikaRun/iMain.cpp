@@ -1,6 +1,9 @@
 #include <iostream>
+#include <string>
 #include "iGraphics.h"
 #include "variables.h"
+
+using namespace std;
 
 // function prototypes
 void draw_homemenu();
@@ -9,6 +12,13 @@ void mute();
 void draw_enemy();
 void draw_pokeballs();
 void draw_thunderbolt();
+void setVariables();
+void nameInput(unsigned char key);
+void returnToMainMenu(unsigned char key);
+void recordScore();
+void recordHighscore();
+void readScore();
+void draw_highscore();
 
 struct buttonCoordinate {
 	int x, y;
@@ -51,7 +61,7 @@ void iDraw() {
     }
     else if (gamestate == 1) 
 	{
-        iShowBMP(0, 0, highscore);
+		draw_highscore();
     }
     else if (gamestate == 2) 
 	{
@@ -120,8 +130,26 @@ void iPassiveMouseMove(int mx, int my) {
 }
 
 void iKeyboard(unsigned char key) {
+	
+	returnToMainMenu(key); //returns gamestate to -1
+    
+	if (key == 'k') 
+	{
+		if (gamestate == 0 && playing == false)
+		{
+		
+		}
+		else
+		{
+			if (musicTracker > 0 && musicTracker <= music_counter && musicOn == true)
+			{
+				musicTracker--;
+				PlaySound(music[musicTracker], NULL, SND_LOOP | SND_ASYNC);
+			}
+		}
 
-    if (key == 'r') 
+	}
+	if (key == 'l') 
 	{
 		if (gamestate == 0 && playing == false)
 		{
@@ -129,27 +157,11 @@ void iKeyboard(unsigned char key) {
 		}
 		else
 		{
-			gamestate = -1;
-			musicTracker = 0;
-			if (musicOn && gamestate == -1){
+			if (musicTracker >= 0 && musicTracker < music_counter - 1 && musicOn == true)
+			{
+				musicTracker++;
 				PlaySound(music[musicTracker], NULL, SND_LOOP | SND_ASYNC);
-				musicTracker = 0;
 			}
-		}
-    }
-	if (key == 'k') 
-	{
-		if (musicTracker > 0  && musicTracker <= music_counter && musicOn == true){
-			musicTracker--;
-			PlaySound(music[musicTracker], NULL, SND_LOOP | SND_ASYNC);
-		}
-
-	}
-	if (key == 'l') 
-	{
-		if (musicTracker >= 0 && musicTracker < music_counter-1 && musicOn == true){
-			musicTracker++;
-			PlaySound(music[musicTracker], NULL, SND_LOOP | SND_ASYNC);
 		}
 
 	}
@@ -178,34 +190,8 @@ void iKeyboard(unsigned char key) {
 			jumpingUp = true;
 		}
 	}
-	if (gamestate == 0 && playing == false)
-	{
-		if (key != '\b' && key != '\r')
-		{
-			if (nameIndex >= name_limit-1)
-				nameIndex = name_limit - 1;
-			else
-			{
-				name[nameIndex] = key;
-				nameIndex++;
-				name[nameIndex] = '\0';
-			}
-		}
-		else if (key == '\b')
-		{
-			if (nameIndex <= 0)
-				nameIndex = 0;
-			else
-			{
-				nameIndex--;
-				name[nameIndex] = '\0';
-			}
-		}
-		else if (key == '\r')
-		{
-			playing = true;
-		}
-	}
+	//name input
+	nameInput(key);
 }
 
 void iSpecialKeyboard(unsigned char key) {
@@ -464,7 +450,7 @@ void checkCollision(){
 
 		for (int i = 0; i < enemy_count; i++)
 		{
-			if ((enemy[i].x <= pikachu_x_coordinate + pikachu_width && enemy[i].x >= pikachu_x_coordinate-40) && (enemy[i].y <= pikachu_y_coordinate + pikachu_height/2 && enemy[i].y >= pikachu_y_coordinate))
+			if ((enemy[i].x <= pikachu_x_coordinate + pikachu_width && enemy[i].x >= pikachu_x_coordinate-pikachu_width) && (enemy[i].y <= pikachu_y_coordinate + pikachu_height/2 && enemy[i].y >= pikachu_y_coordinate))
 			{
 				gamestate = 3;
 			}
@@ -489,15 +475,135 @@ void draw_thunderbolt(){
 	}
 }
 
-void recordScore()
-{
-	
+void nameInput(unsigned char key){
+	if (gamestate == 0 && playing == false)
+	{
+		if (key != '\b' && key != '\r' && key != ' ')
+		{
+			if (nameIndex >= name_limit - 1)
+				nameIndex = name_limit - 1;
+			else
+			{
+				name[nameIndex] = key;
+				nameIndex++;
+				name[nameIndex] = '\0';
+			}
+		}
+		else if (key == '\b')
+		{
+			if (nameIndex <= 0)
+				nameIndex = 0;
+			else
+			{
+				nameIndex--;
+				name[nameIndex] = '\0';
+			}
+		}
+		else if (key == '\r')
+		{
+			playing = true;
+		}
+	}
+}
+
+void returnToMainMenu(unsigned char key){
+	if (key == 'r')
+	{
+		if (gamestate == 3)
+		{
+			recordScore();
+			readScore();
+			recordHighscore();
+		}
+		if (gamestate == 0 && playing == false)
+		{
+
+		}
+		else
+		{
+			//resets game
+			gamestate = -1;
+			playing = false;
+			musicTracker = 0;
+			setVariables();
+			nameIndex = 0;
+			name[nameIndex] = '\0';
+			pokeballCount = 0, pokeballIndex = 0;
+			score = 0;
+			jumping = false, jumpingUp = false;
+			pikachuRunIndex = 0, pikachuJumpIndex = 0, pikachu_y_coordinate = 100;
+			enemySpeed = 10, thunderboltIndex = 0, timeWaste = 0;
+			powerup = false;
+			if (musicOn && gamestate == -1)
+			{
+				PlaySound(music[musicTracker], NULL, SND_LOOP | SND_ASYNC);
+			}
+		}
+	}
+}
+
+void recordScore(){
+	fp = fopen("scores.txt", "a+");
+	if (fp == NULL)
+		printf("The file could not be opened :(\n");
+	else
+	{
+		fprintf(fp, "%s %s\n", name, scoreString);
+		printf("Score recorded\n");
+		fclose(fp);
+	}
+}
+
+void readScore(){
+	fp = fopen("scores.txt", "r");
+	readIndex = 0;
+	while (fscanf(fp, "%s %s", &hs[readIndex].name, &hs[readIndex].score) != EOF)
+	{
+		readIndex++;
+	}
+	fclose(fp);
+}
+
+void recordHighscore(){
+	// sorting the hs[] array in descending order
+	char temp[50];
+	for (int i = 0; i < readIndex; i++)
+	{
+		for (int j = i + 1; j < readIndex; j++)
+		{
+			if (atoi(hs[i].score) < atoi(hs[j].score))
+			{
+				strcpy(temp, hs[j].score);
+				strcpy(hs[j].score, hs[i].score);
+				strcpy(hs[i].score, temp);
+
+				strcpy(temp, hs[j].name);
+				strcpy(hs[j].name, hs[i].name);
+				strcpy(hs[i].name, temp);
+			}
+		}
+	}
+}
+
+void draw_highscore(){
+
+	iShowBMP(0, 0, highscore);
+	iSetColor(0, 0, 0);
+	for (int i = 0, j = 0; i < 5; i++)
+	{
+		iText(110, 400 - j, hs[i].name, GLUT_BITMAP_TIMES_ROMAN_24);
+		iText(420, 400 - j, hs[i].score, GLUT_BITMAP_TIMES_ROMAN_24);
+		j += 70;
+	}
+	iSetColor(255, 255, 255);
 }
 
 int main() {
 	combined();
 	buttonWork();
 	setVariables();
+	readScore();
+	recordHighscore();
 	
     iSetTimer(150, changeIndex);
 	iSetTimer(30, jump);

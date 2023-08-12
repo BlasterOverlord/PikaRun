@@ -29,14 +29,15 @@ int enemySpeed = 10;
 int thunderboltIndex = 0, timeWaste = 0;
 bool powerup = false;
 bool playing = false;
-int nameIndex = 0;
+int nameIndex = 0, readIndex = 0;
+FILE *fp;
 
 // Strings containing paths to files
 char button[3][30] = { "images\\buttons\\play1.bmp", "images\\buttons\\score.bmp", "images\\buttons\\ins.bmp" };
 char button2[3][30] = { "", "", "" };
 char homemenu[30] = "images\\menu\\42_02.bmp";
 char play[30] = "images\\menu\\play.bmp";
-char highscore[30] = "images\\menu\\41.bmp";
+char highscore[30] = "images\\menu\\hs.bmp";
 char ins[30] = "images\\menu\\idk05.bmp";
 char exitButtonImg[30] = "images\\buttons\\exit.bmp";
 char pikachuRun[4][30] = { "images\\pikachu\\run1.bmp", "images\\pikachu\\run2.bmp", "images\\pikachu\\run3.bmp", "images\\pikachu\\run4.bmp" };
@@ -67,7 +68,9 @@ enemy[2] is meowth (rare)
 enemy[3] is balloon (rare)
 */
 
-
+struct highScore{
+	char name[50], score[12];
+} hs[10000];
 
 
 char Background[70][30] = {
