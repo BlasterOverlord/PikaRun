@@ -123,11 +123,18 @@ void iKeyboard(unsigned char key) {
 
     if (key == 'r') 
 	{
-		gamestate = -1;
-		musicTracker = 0;
-		if (musicOn && gamestate == -1){
-			PlaySound(music[musicTracker], NULL, SND_LOOP | SND_ASYNC);
+		if (gamestate == 0 && playing == false)
+		{
+
+		}
+		else
+		{
+			gamestate = -1;
 			musicTracker = 0;
+			if (musicOn && gamestate == -1){
+				PlaySound(music[musicTracker], NULL, SND_LOOP | SND_ASYNC);
+				musicTracker = 0;
+			}
 		}
     }
 	if (key == 'k') 
