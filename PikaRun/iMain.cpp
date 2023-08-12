@@ -18,6 +18,7 @@ void recordScore();
 void recordHighscore();
 void readScore();
 void draw_highscore();
+void musicChange(unsigned char key);
 
 struct buttonCoordinate {
 	int x, y;
@@ -131,39 +132,8 @@ void iPassiveMouseMove(int mx, int my) {
 void iKeyboard(unsigned char key) {
 	
 	returnToMainMenu(key); //returns gamestate to -1
-    
-	if (key == 'k') 
-	{
-		if (gamestate == 0 && playing == false)
-		{
-		
-		}
-		else
-		{
-			if (musicTracker > 0 && musicTracker <= music_counter && musicOn == true)
-			{
-				musicTracker--;
-				PlaySound(music[musicTracker], NULL, SND_LOOP | SND_ASYNC);
-			}
-		}
+	musicChange(key); // music change with l and k
 
-	}
-	if (key == 'l') 
-	{
-		if (gamestate == 0 && playing == false)
-		{
-
-		}
-		else
-		{
-			if (musicTracker >= 0 && musicTracker < music_counter - 1 && musicOn == true)
-			{
-				musicTracker++;
-				PlaySound(music[musicTracker], NULL, SND_LOOP | SND_ASYNC);
-			}
-		}
-
-	}
     if (key == 'x') 
 	{
 		if (gamestate == 0 && powerup == false && pokeballCount >= 5)
@@ -183,7 +153,7 @@ void iKeyboard(unsigned char key) {
     }
 	if (key == ' ')
 	{
-		if (!jumping)
+		if (jumping == false && playing == true)
 		{
 			jumping = true;
 			jumpingUp = true;
@@ -378,7 +348,7 @@ void enemyMovement(){
 
 		enemy[2].x -= enemySpeed;
 		if (enemy[2].x < 0)
-			enemy[2].x = width + 500 + (rand() % 2000);
+			enemy[2].x = width + 500 + (rand() % 1500);
 
 		enemy[3].x -= enemySpeed;
 		if (enemy[3].x < 0)
@@ -410,8 +380,8 @@ void draw_pokeballs() {
 	iShowBMP2(width - 270, 590, box, 255);
 	for (int i = 0, j = 0; i < pokeballCount; i++)
 	{
-		iShowBMP2(width-265-j, 610, balls, 0);
-		j -= 50;
+		iShowBMP2(width-265 + j, 610, balls, 0);
+		j += 50;
 	}
 }
 
@@ -543,8 +513,43 @@ void returnToMainMenu(unsigned char key){
 	}
 }
 
+void musicChange(unsigned char key){
+	if (key == 'k')
+	{
+		if (gamestate == 0 && playing == false)
+		{
+
+		}
+		else
+		{
+			if (musicTracker > 0 && musicTracker <= music_counter && musicOn == true)
+			{
+				musicTracker--;
+				PlaySound(music[musicTracker], NULL, SND_LOOP | SND_ASYNC);
+			}
+		}
+
+	}
+	if (key == 'l')
+	{
+		if (gamestate == 0 && playing == false)
+		{
+
+		}
+		else
+		{
+			if (musicTracker >= 0 && musicTracker < music_counter - 1 && musicOn == true)
+			{
+				musicTracker++;
+				PlaySound(music[musicTracker], NULL, SND_LOOP | SND_ASYNC);
+			}
+		}
+
+	}
+}
+
 void recordScore(){
-	fp = fopen("scores.txt", "a+");
+	fp = fopen("scores.txt", "a");
 	if (fp == NULL)
 		printf("The file could not be opened :(\n");
 	else
