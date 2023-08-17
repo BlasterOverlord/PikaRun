@@ -1,3 +1,6 @@
+#ifndef VARIABLES_H
+#define VARIABLES_H
+
 #define width 1100
 #define height 674
 #define button_width 405
@@ -10,14 +13,15 @@
 #define enemy_count 4
 #define pikachu_width 70
 #define pikachu_height 40
-#define pokeball_height 70
+#define pokeball_height 50
+#define ground 90
 #define name_limit 50
 
 // Global variables
 int mposx = 200, mposy = 173, dx = 5, dy = 5;
 int exitz = -1, hover = -1, gamestate = -1;
 int pikachuRunIndex = 0, pikachuJumpIndex = 0;
-int pikachu_y_coordinate = 100;
+int pikachu_y_coordinate;
 bool musicOn = true;
 bool jumping = false, jumpingUp = false;
 int musicTracker = 0;
@@ -68,10 +72,19 @@ enemy[2] is meowth (rare)
 enemy[3] is balloon (rare)
 */
 
+struct buttonCoordinate {
+	int x, y;
+} bCoordinate[3], exitButton;
+
 struct highScore{
 	char name[50], score[12];
 } hs[10000];
 
+
+struct background{
+	int x;
+};
+background backGround[70];
 
 char Background[70][30] = {
 	"images\\plz\\image01.bmp",
@@ -144,5 +157,6 @@ char Background[70][30] = {
 	"images\\plz\\image68.bmp",
 	"images\\plz\\image69.bmp",
 	"images\\plz\\image69.bmp"
-
 };
+
+#endif
