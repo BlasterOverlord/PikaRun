@@ -6,26 +6,10 @@ void draw_homemenu() {
 	iShowBMP(0, 0, homemenu);
 	for (int i = 0; i < gamestate_limit; i++)
 	{
-		if (mposx >= bCoordinate[i].x && mposx <= bCoordinate[i].x + button_width &&
-			mposy >= bCoordinate[i].y && mposy <= bCoordinate[i].y + button_height)
-		{
-			iShowBMP2(bCoordinate[i].x, bCoordinate[i].y, button[i], 255); // Hover effect
-		}
-		else
-		{
-			iShowBMP2(bCoordinate[i].x, bCoordinate[i].y, button[i], NULL);
-		}
+		iShowBMP2(bCoordinate[i].x, bCoordinate[i].y, button[i], NULL);
 	}
 
-	if (mposx >= exitButton.x && mposx <= exitButton.x + button_width &&
-		mposy >= exitButton.y && mposy <= exitButton.y + button_height)
-	{
-		iShowBMP2(exitButton.x, exitButton.y, exitButtonImg, 255); // Hover effect
-	}
-	else
-	{
-		iShowBMP2(exitButton.x, exitButton.y, exitButtonImg, NULL);
-	}
+	iShowBMP2(exitButton.x, exitButton.y, exitButtonImg, NULL);
 }
 
 void draw_movement() {

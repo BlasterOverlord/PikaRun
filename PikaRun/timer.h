@@ -94,32 +94,38 @@ void enemyMovement(){
 
 	if (gamestate == 0 && playing == true)
 	{
-		enemy[0].x -= enemySpeed;
-		if (enemy[0].x < 0)
-			enemy[0].x = width + (rand() % 1000);
-
-		enemy[1].x -= enemySpeed;
-		if (enemy[1].x < 0)
+		for (int i = 0; i < enemy_count; i++)
 		{
-			enemy[1].x = width + 100 + (rand() % 1500);
-			enemy[1].y = height - 200 - (rand() % 200);
+			enemy[i].x -= enemySpeed;
+			if (enemy[i].x <= 0)
+			{
+				if (i == 0)
+				{
+					enemy[i].x = width + (rand() % 1000);
+				}
+				if (i == 1)
+				{
+					enemy[i].x = width + 400 + (rand() % 1000);
+					enemy[i].y = height - 200 - (rand() % 200);
+				}
+				if (i == 2)
+				{
+					enemy[i].x = width + 800 + (rand() % 1500);
+				}
+				if (i == 3)
+				{
+					enemy[i].x = width + 1000 + (rand() % 2000);
+					enemy[i].y = height - 200 - (rand() % 200);
+				}
+
+			}
 		}
 
-		enemy[2].x -= enemySpeed;
-		if (enemy[2].x < 0)
-			enemy[2].x = width + 500 + (rand() % 1500);
-
-		enemy[3].x -= enemySpeed;
-		if (enemy[3].x < 0)
-		{
-			enemy[3].x = width + 1000 + (rand() % 2000);
-			enemy[3].y = height - 200 - (rand() % 200);
-		}
-
+		// for pokeball
 		pokeballX -= 10;
 		if (pokeballX <= 0)
 		{
-			pokeballX = width + 1500 + rand() % 3000;
+			pokeballX = width + 500 + (rand() % 1000);
 			pokeballY = 150 + rand() % 250;
 		}
 	}
@@ -129,17 +135,19 @@ void checkCollision(){
 
 	if (gamestate == 0 && playing == true)
 	{
-		if ((pokeballX <= pikachu_x_coordinate + pikachu_width && pokeballX >= pikachu_x_coordinate - 40) && (pikachu_y_coordinate <= pokeballY + pokeball_height / 2 && pikachu_y_coordinate >= pokeballY))
+		//pokeball
+		if ((pokeballX <= pikachu_x_coordinate + pikachu_width && pokeballX >= pikachu_x_coordinate - pokeball_width) && (pikachu_y_coordinate <= pokeballY + pokeball_height && pikachu_y_coordinate >= pokeballY - pikachu_height))
 		{
-			pokeballX = width + 1000 + (rand() % 500);
+			pokeballX = width + 500 + (rand() % 1000);
 			pokeballY = 150 + (rand() % 250);
 			if (pokeballCount < 5)
 				pokeballCount++;
 		}
 
+		//obstacles
 		for (int i = 0; i < enemy_count; i++)
 		{
-			if ((enemy[i].x <= pikachu_x_coordinate + pikachu_width && enemy[i].x >= pikachu_x_coordinate - pikachu_width) && (enemy[i].y <= pikachu_y_coordinate + pikachu_height && enemy[i].y >= pikachu_y_coordinate))
+			if ((enemy[i].x <= pikachu_x_coordinate + pikachu_width && enemy[i].x >= pikachu_x_coordinate - enemy_width) && (pikachu_y_coordinate <= enemy[i].y + enemy_height && pikachu_y_coordinate >= enemy[i].y - pikachu_height))
 			{
 				gamestate = 3;
 			}
@@ -148,13 +156,31 @@ void checkCollision(){
 		//powerup
 		for (int i = 0; i < enemy_count; i++)
 		{
-			if (powerup == true && (enemy[i].x > pikachu_x_coordinate + 100 && enemy[i].x < width) && (enemy[i].y <= pikachu_y_coordinate + pikachu_height / 2 && enemy[i].y >= pikachu_y_coordinate))
+			if (powerup == true && (enemy[i].x > pikachu_x_coordinate + pikachu_width && enemy[i].x < width) && (pikachu_y_coordinate <= enemy[i].y + enemy_height && pikachu_y_coordinate >= enemy[i].y - pikachu_height))
 			{
-				enemy[i].x = width + 500 + (rand() % 500);
+				enemy[i].x = width + 500 + (rand() % 1000);
+				score += 100;
 			}
 		}
 	}
 
+}
+
+void updateScore(){
+	if (gamestate == 0 && playing == true)
+	{
+		score++;
+		sprintf(scoreString, "%d", score); //converts int to string
+	}
+
+	if (score > 500 && score < 1000)
+		enemySpeed = 15;
+	else if (score > 1000 && score < 1500)
+		enemySpeed = 20;
+	else if (score > 1500 && score < 2000)
+		enemySpeed = 25;
+	else if (score > 2000)
+		enemySpeed = 30;
 }
 
 #endif

@@ -1,14 +1,6 @@
 #ifndef SCORE_H
 #define SCORE_H
 
-void updateScore(){
-	if (gamestate == 0 && playing == true)
-	{
-		score++;
-		sprintf(scoreString, "%d", score); //converts int to string
-	}
-}
-
 void recordScore(){
 	fp = fopen("scores.txt", "a");
 	if (fp == NULL)

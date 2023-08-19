@@ -28,6 +28,7 @@ void returnToMainMenu(unsigned char key){
 			pikachuRunIndex = 0, pikachuJumpIndex = 0;
 			enemySpeed = 10, thunderboltIndex = 0, timeWaste = 0;
 			powerup = false;
+			srand(time(NULL));
 			if (musicOn && gamestate == -1)
 			{
 				PlaySound(music[musicTracker], NULL, SND_LOOP | SND_ASYNC);

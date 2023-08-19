@@ -12,14 +12,17 @@
 #define music_counter 3
 #define enemy_count 4
 #define pikachu_width 70
-#define pikachu_height 40
-#define pokeball_height 50
+#define pikachu_height 70
+#define pokeball_height 60
+#define pokeball_width 60
+#define enemy_width 60
+#define enemy_height 80
 #define ground 90
-#define name_limit 50
+#define name_limit 30
 
 // Global variables
 int mposx = 200, mposy = 173, dx = 5, dy = 5;
-int exitz = -1, hover = -1, gamestate = -1;
+int exitz = -1, gamestate = -1;
 int pikachuRunIndex = 0, pikachuJumpIndex = 0;
 int pikachu_y_coordinate;
 bool musicOn = true;

@@ -9,6 +9,7 @@
 
 using namespace std;
 
+
 void iDraw() {
     
 	iClear();
@@ -192,10 +193,11 @@ void setVariables(){
 }
 
 int main() {
-
+	
 	setVariables();
 	readScore();
 	recordHighscore();
+	srand(time(NULL)); // sets a random seed based on the curren time for rand() function, so that each gameplay is unique --- comment this line for a guranteed 5 pokeball run
 	
     iSetTimer(150, changeIndex);
 	iSetTimer(30, jump);
